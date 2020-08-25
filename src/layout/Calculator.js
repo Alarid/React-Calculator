@@ -1,4 +1,5 @@
 import React from 'react';
+import safeEval from 'safe-eval';
 
 import Display from '../components/Display';
 import ClearButton from '../components/ClearButton';
@@ -59,7 +60,7 @@ export default class Calculator extends React.Component {
         .replace(operations.MULTIPLY, '*')
         .replace(operations.DIVIDE, '/')
         .replace(operations.EQUAL, '=');
-      const result = eval(operation); //eslint-disable-line no-eval
+      const result = safeEval(operation); //eslint-disable-line no-eval
       this.setState(state => ({
         display: result.toString(),
         result: true,
