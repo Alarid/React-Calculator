@@ -3,9 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import Calculator from './layout/Calculator';
+import Header from './layout/Header';
 
 ReactDOM.render(
   <React.StrictMode>
+    <Header/>
     <Calculator />
   </React.StrictMode>,
   document.getElementById('root')
