@@ -51,18 +51,18 @@ export default class Calculator extends React.Component {
 
   // Returns true if an operation can be added to the display, false otherwise
   canAddOperation = () => (
-    !(this.state.result && this.state.display === "0")
+    !(this.state.result && this.state.display === "0") &&
+    Object.values(operations).indexOf(this.state.display.substr(-1)) === -1
   )
 
   // Callback for a click on an operation button (+, -, *, /, =)
   handleOperation = (event, op) => {
     const value = event ? event.target.value : op;
+    if (!this.canAddOperation()) return;
+
     // New operation to add to display
-    if (value !== "=") {
-      // Can't add an operation to a 0 result
-      if (this.canAddOperation()) {
-        this.addToDisplay(value);
-      }
+    if (value !== operations.EQUAL) {
+      this.addToDisplay(value);
     } else {
       // Requested the operation result
       const display = this.state.display;
@@ -95,7 +95,7 @@ export default class Calculator extends React.Component {
       this.handleNumber(null, key);
     } else if (this.supportedKeyboardEvents.operations.indexOf(key) !== -1) {
       // If the user typed in an operation (*, +, -, ...)
-      this.handleOperation(null, key);
+      this.bindKeyToOperation(key);
     } else if (this.supportedKeyboardEvents.specials.indexOf(key) !== -1) {
       // If the user typed in a special key (delete, enter)
       switch (key) {
@@ -103,11 +103,34 @@ export default class Calculator extends React.Component {
           this.handleClear();
           break;
         case 'enter':
-          this.handleOperation(null, '=');
+          this.handleOperation(null, operations.EQUAL);
           break;
         default:
           break;
       }
+    }
+  }
+
+  // Associate a key to an operation
+  bindKeyToOperation(key) {
+    switch (key) {
+      case '-':
+        this.handleOperation(null, operations.MINUS);
+        break;
+      case '+':
+        this.handleOperation(null, operations.PLUS);
+        break;
+      case '*':
+        this.handleOperation(null, operations.MULTIPLY);
+        break;
+      case '/':
+        this.handleOperation(null, operations.DIVIDE);
+        break;
+      case '=':
+        this.handleOperation(null, operations.EQUAL);
+        break;
+      default:
+        break;
     }
   }
 
@@ -120,9 +143,7 @@ export default class Calculator extends React.Component {
       onClick: this.handleNumber,
     }
     const canAddOperation = this.canAddOperation();
-    const keys = Object.keys(this.supportedKeyboardEvents)
-      .map(type => this.supportedKeyboardEvents[type])
-      .flat();
+    const keys = Object.values(this.supportedKeyboardEvents).flat();
 
     return (
       <div className="calculator">

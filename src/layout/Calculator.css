@@ -4,4 +4,5 @@
   width: 350px;
   border: 1px solid #921429;
   margin: 50px auto;
+  box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.5);
 }
