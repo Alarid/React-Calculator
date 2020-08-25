@@ -1,0 +1,11 @@
+.operation-button {
+  background-color: #D12C4D;
+  color: white;
+  font-weight: bold;
+  font-size: 3rem;
+  border-style: solid;
+}
+
+.operation-button:hover {
+  background-color: #aa2540;
+}

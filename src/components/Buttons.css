@@ -1,0 +1,11 @@
+.button {
+  height: 90px;
+  flex: 25%;
+  font-size: 20px;
+  border: 0.5px dotted #921429;
+  background-color: #fff;
+}
+
+.button:hover {
+  background-color: #dddddd;
+}

@@ -1,0 +1,15 @@
+.display {
+  background-color: #433437;
+  border: 1px solid #921429;
+  text-align: right;
+  padding: 15px;
+  color: white;
+  font-size: 30px;
+  font-weight: bold;
+  height: 70px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  border-style: solid;
+  flex: 100%;
+}
