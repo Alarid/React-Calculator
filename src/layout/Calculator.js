@@ -8,7 +8,7 @@ import NumberButton from '../components/NumberButton';
 import './Calculator.css';
 
 const operations = {
-  PLUS: "×",
+  PLUS: "+",
   MINUS: "−",
   DIVIDE: "÷",
   MULTIPLY: "×",
@@ -33,24 +33,33 @@ export default class Calculator extends React.Component {
 
   addToDisplay(elem) {
     this.setState(state => ({
-      display: state.result ? elem : state.display+elem,
+      display: (state.result && state.display === "0") ? elem : state.display+elem,
       result: false,
     }));
   }
 
+  canAddOperation = () => (
+    !(this.state.result && this.state.display === "0")
+  )
+
   handleOperation = (event) => {
     const value = event.target.value;
+    // New operation to add to display
     if (value !== "=") {
-      this.addToDisplay(value);
+      // Can't add an operation to a 0 result
+      if (this.canAddOperation()) {
+        this.addToDisplay(value);
+      }
     } else {
+      // Requested the operation result
       const display = this.state.display;
-      display
+      const operation = display
         .replace(operations.PLUS, '+')
         .replace(operations.MINUS, '-')
         .replace(operations.MULTIPLY, '*')
         .replace(operations.DIVIDE, '/')
         .replace(operations.EQUAL, '=');
-      const result = eval(display); //eslint-disable-line no-eval
+      const result = eval(operation); //eslint-disable-line no-eval
       this.setState(state => ({
         display: result.toString(),
         result: true,
@@ -70,7 +79,7 @@ export default class Calculator extends React.Component {
     const numberBtnActions = {
       onClick: this.handleNumber,
     }
-
+    const canAddOperation = this.canAddOperation();
     return (
       <div className="calculator">
         <Display text={this.state.display} />
@@ -78,22 +87,42 @@ export default class Calculator extends React.Component {
         <NumberButton value={7} {...numberBtnActions} />
         <NumberButton value={8} {...numberBtnActions} />
         <NumberButton value={9} {...numberBtnActions} />
-        <OperationButton label={operations.PLUS} {...operationBtnActions} />
+        <OperationButton
+          label={operations.PLUS}
+          canAddOperation={canAddOperation}
+          {...operationBtnActions}
+        />
 
         <NumberButton value={4} {...numberBtnActions} />
         <NumberButton value={5} {...numberBtnActions} />
         <NumberButton value={6} {...numberBtnActions} />
-        <OperationButton label={operations.MINUS} {...operationBtnActions} />
+        <OperationButton
+          label={operations.MINUS}
+          canAddOperation={canAddOperation}
+          {...operationBtnActions}
+        />
 
         <NumberButton value={1} {...numberBtnActions} />
         <NumberButton value={2} {...numberBtnActions} />
         <NumberButton value={3} {...numberBtnActions} />
-        <OperationButton label={operations.MULTIPLY} {...operationBtnActions} />
+        <OperationButton
+          label={operations.MULTIPLY}
+          canAddOperation={canAddOperation}
+          {...operationBtnActions}
+        />
 
         <NumberButton value={0} {...numberBtnActions} />
         <ClearButton onClear={this.handleClear} />
-        <OperationButton label={operations.DIVIDE} {...operationBtnActions} />
-        <OperationButton label={operations.EQUAL} {...operationBtnActions} />
+        <OperationButton
+          label={operations.DIVIDE}
+          canAddOperation={canAddOperation}
+          {...operationBtnActions}
+        />
+        <OperationButton
+          label={operations.EQUAL}
+          canAddOperation={canAddOperation}
+          {...operationBtnActions}
+        />
 
       </div>
     )

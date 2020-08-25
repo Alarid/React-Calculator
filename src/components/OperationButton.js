@@ -4,13 +4,14 @@ import PropTypes from 'prop-types';
 import './Buttons.css';
 import './OperationButton.css';
 
-const OperationButton = ({ label, onClick }) => {
+const OperationButton = ({ label, canAddOperation, onClick }) => {
   return (
     <button
       className="button operation-button"
       type="button"
       onClick={onClick}
       value={label}
+      disabled={!canAddOperation}
     >
       {label}
     </button>
@@ -19,6 +20,7 @@ const OperationButton = ({ label, onClick }) => {
 
 OperationButton.propTypes = {
   label: PropTypes.string.isRequired,
+  canAddOperation: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
 }
 

@@ -6,6 +6,11 @@
   border-style: solid;
 }
 
-.operation-button:hover {
+.operation-button[disabled] {
+  background-color: #d1687d;
+  border-color: #d1687d;
+}
+
+.operation-button:not([disabled]):hover {
   background-color: #aa2540;
 }
